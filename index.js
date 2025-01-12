@@ -53,9 +53,6 @@ app.post('/edit', function (req, res) {
     const { previous, new: newName, description } = req.body;
 
     const filePath = `./files/${previous}`;
-    console.log(`./files/${newName}`);
-    
-    console.log('Trying to edit file at path:', filePath);  // Debugging line
 
     fs.access(filePath, fs.constants.F_OK, function (err) {
         if (err) {
