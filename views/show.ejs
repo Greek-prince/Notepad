@@ -5,13 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/ff444f3eca.js" crossorigin="anonymous"></script> <!-- Your Font Awesome Kit -->
 </head>
-<body>
-    <div class="main p-10  w-full min-h-screen bg-zinc-900  text-white">
-        <a class="text-blue-500 inline-block mb-10" href="/">← Go back to Home Page</a>
-        <h1 class="text-white text-4Xl tracking-tighter"><%= filename  %></h1>
-        <p class="text-XL mt-5 font-light"><%= filedata %></p>
+<body class="bg-zinc-900 text-white">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-1/5 bg-zinc-800  transition-all duration-300 ease-in-out relative pt-12">
+            <!-- Collapse button and "All Files" on the same line -->
+            <div class="flex items-center mb-5">
+                <!-- Collapse button with FontAwesome arrow icons -->
+                <button id="toggleSidebar" class="text-white pl-3 ">
+                    <i id="toggleIcon" class="fas fa-arrow-right"></i> <!-- FontAwesome Arrow Icon -->
+                </button>
+                <!-- "All Files" Title -->
+                <h2 id="sidebarTitle" class="text-lg font-semibold pl-2">All Files</h2>
+            </div>
+            
+            <!-- Sidebar Content -->
+            <ul id="fileList" class="space-y-3 pl-8">
+                <% files.forEach(file => { %>
+                <li class="file-item">
+                    <a 
+                        href="/files/<%= file %>" 
+                        class="block text-blue-400 hover:text-blue-500"
+                    >
+                        <%= file %>
+                    </a>
+                </li>
+                <% }); %>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main flex-1 p-10">
+            <!-- Home Icon -->
+            <a class="text-blue-500 inline-block mb-10" href="/">
+                <i class="fas fa-home text-2xl mr-2"></i> <!-- Font Awesome Home Icon -->
+                Home
+            </a>
+            <h1 class="text-white text-4xl tracking-tighter"><%= filename %></h1>
+            <p class="text-xl mt-5 font-light whitespace-pre-wrap"><%= filedata %></p> <!-- Preserved formatting in filedata -->
+        </div>
     </div>
-    
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('toggleSidebar');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const sidebarTitle = document.getElementById('sidebarTitle');
+        const fileList = document.getElementById('fileList');
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('w-1/5'); 
+            sidebar.classList.toggle('w-0');   
+
+            if (sidebar.classList.contains('w-0')) {
+                fileList.style.display = 'none'; 
+                sidebarTitle.style.display = 'none'; 
+                toggleIcon.classList.remove('fa-arrow-right');
+                toggleIcon.classList.add('fa-arrow-left');
+            } else {
+                fileList.style.display = 'block'; 
+                sidebarTitle.style.display = 'block'; 
+                toggleIcon.classList.remove('fa-arrow-left');
+                toggleIcon.classList.add('fa-arrow-right');
+            }
+        });
+    </script>
 </body>
 </html>
